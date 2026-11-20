@@ -146,10 +146,6 @@ namespace Gov.News.Website.Middleware
             {
                 return new Uri(Properties.Settings.Default.NewsHostUri, path.Replace("/ministries/energy-and-mines", "/ministries/energy-mines-and-petroleum-resources") + query);
             }
-            if (path.StartsWith("/ministries/environment") && !path.StartsWith("/ministries/environment-and")) //Need - otherwise it causes a redirect loop because the names are too similar.
-            {
-                return new Uri(Properties.Settings.Default.NewsHostUri, path.Replace("/ministries/environment", "/ministries/environment-and-climate-change-strategy") + query);
-            }
             if (path.StartsWith("/ministries/forests-lands-and-natural-resource-operations"))
             {
                 return new Uri(Properties.Settings.Default.NewsHostUri, path.Replace("forests-lands-and-natural-resource-operations", "forests-lands-natural-resource-operations-and-rural-development"));
@@ -456,8 +452,6 @@ namespace Gov.News.Website.Middleware
                                  "/ministries/energy-mines-and-petroleum-resources");
             redirectMappings.Add("/ministries/advanced-education",
                                  "/ministries/advanced-education-and-skills-training");
-            redirectMappings.Add("/ministries/environment",
-                                 "/ministries/environment-and-climate-change-strategy");
             redirectMappings.Add("/ministries/intergovernmental-relations-secretariat-1",
                                  "/ministries/intergovernmental-relations-secretariat");
             redirectMappings.Add("/ministries/social-development-social-innovation",
