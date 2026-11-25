@@ -127,9 +127,12 @@
                 {
                     <partial name="NewsLetterLinks" model="ministry.NewsletterLinks" />
                 }
-                @if (Model.ChildMinistry != null)
+                @if (Model.ChildMinistries?.Any() == true)
                 {
-                    <partial name="MinisterOfState" model="new Tuple<Ministry, Minister>(Model.ChildMinistry, Model.ChildMinistryMinister)" />
+                    foreach (var childMinistry in Model.ChildMinistries)
+                    {
+                        <partial name="MinisterOfState" model="childMinistry" />
+                    }
                 }
                 <div class="clear"></div>
             </div>
