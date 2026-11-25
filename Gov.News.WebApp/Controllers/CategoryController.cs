@@ -30,6 +30,19 @@ namespace Gov.News.Website.Controllers
             if (index == null)
                 return await SearchNotFound();
 
+            if (index is Ministry ministry &&
+                !string.IsNullOrEmpty(ministry.ParentMinistryKey))
+            {
+                return RedirectToAction(
+                    "Details",
+                    new
+                    {
+                        category = "ministries",
+                        key = ministry.ParentMinistryKey,
+                        postKind
+                    });
+            }
+
             var model = await GetModel(index, postKind);
 
             ViewBag.Type = postKind;
