@@ -81,17 +81,31 @@ namespace Gov.News.Website.Controllers
 
                 model.Minister = await Repository.GetMinisterAsync(ministry.Key);
 
-                if (ministry.ChildMinistryKey != null)
-                {
-                    model.ChildMinistry = await Repository.GetMinistryAsync(ministry.ChildMinistryKey);
-                }
+                var childMinistryKeys = ministry.ChildMinistryKeys?.Any() == true
+                    ? ministry.ChildMinistryKeys
+                    : !string.IsNullOrEmpty(ministry.ChildMinistryKey)
+                        ? new List<string> { ministry.ChildMinistryKey }
+                        : new List<string>();
 
-                if (model.ChildMinistry != null && "Speeches".Equals(model.ChildMinistry.Key, StringComparison.CurrentCultureIgnoreCase))
-                    model.ChildMinistry = null;
-
-                if (model.ChildMinistry != null)
+                foreach (var childMinistryKey in childMinistryKeys)
                 {
-                    model.ChildMinistryMinister = await Repository.GetMinisterAsync(model.ChildMinistry.Key);
+                    var childMinistry = await Repository.GetMinistryAsync(childMinistryKey);
+
+                    if (childMinistry == null)
+                        continue;
+
+                    if ("Speeches".Equals(
+                        childMinistry.Key,
+                        StringComparison.CurrentCultureIgnoreCase))
+                        continue;
+
+                    var childMinistryMinister =
+                        await Repository.GetMinisterAsync(childMinistry.Key);
+
+                    model.ChildMinistries.Add(
+                        new Tuple<Ministry, Minister>(
+                            childMinistry,
+                            childMinistryMinister));
                 }
             }
         }

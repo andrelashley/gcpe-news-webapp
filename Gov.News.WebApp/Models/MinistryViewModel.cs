@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Gov.News.Api.Models;
+﻿using Gov.News.Api.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Gov.News.Website.Models
 {
@@ -9,8 +10,7 @@ namespace Gov.News.Website.Models
 
         public Minister Minister { get; set; }
 
-        public Ministry ChildMinistry { get; set; }
-
-        public Minister ChildMinistryMinister { get; set; }
+        public List<Tuple<Ministry, Minister>> ChildMinistries { get; set; }
+            = new List<Tuple<Ministry, Minister>>();
     }
 }
